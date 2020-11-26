@@ -1,0 +1,35 @@
+
+<!-- Diary Events Form -->
+<div class="row mt-3">
+    <div class="col-12 bold-border py-3">
+        <h3 class="lead">Event Form:</h3>
+        <div class="mt-3">
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                {{errorMessage}}
+            </div>
+    
+            <form class="py-3" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+                <div class="form-group" [ngClass]="_cs.displayFieldCss(eventForm, 'comment')">
+                    <label for="comment">Comment</label>
+                    <textarea class="form-control" id="comment" placeholder="Enter comments"
+                        formControlName="comment" [ngClass]="{ 'is-invalid': submitted && f.comment.errors }"></textarea>
+    
+                    <div *ngIf="submitted && f.comment.errors" class="invalid-feedback">
+                        <div *ngIf="f.comment.errors.required">Comments are required</div>
+                    </div>
+                </div>
+                <div class="form-group" [ngClass]="_cs.displayFieldCss(eventForm, 'eventDate')">
+                    <label for="eventDate">Date</label>
+                    <input type="date" class="form-control" id="eventDate" placeholder="Enter Date"
+                        formControlName="eventDate" [ngClass]="{ 'is-invalid': submitted && f.eventDate.errors }">
+    
+                    <div *ngIf="submitted && f.eventDate.errors" class="invalid-feedback">
+                        <div *ngIf="f.eventDate.errors.required">Date is required</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ./Diary Events Form -->

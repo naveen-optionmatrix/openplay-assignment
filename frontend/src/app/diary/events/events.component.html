@@ -1,0 +1,42 @@
+<app-event-form *ngIf="displayForm" [selectedItem]="selectedItem" (onCloseClick)="closeEventForm($event)"></app-event-form>
+
+<!-- Filter -->
+<div class="row" *ngIf="!displayForm">
+    <div class="col-12 bold-border py-3">
+        <div class="form-inline">
+            <label class="sr-only" for="date">Date</label>
+            <input type="date" class="form-control mr-sm-2" id="date" [(ngModel)]="eventDateFilter" placeholder="Date">
+
+            <label class="sr-only" for="itemsPerPage">Items Per Page</label>
+            <input type="number" class="form-control mr-sm-2" id="itemsPerPage" [(ngModel)]="itemsPerPage" placeholder="Items per page">
+
+            <button type="button" class="btn btn-primary" (click)="filter()">Filter</button>
+            <button type="button" class="btn btn-secondary ml-2" (click)="clearFilter()">Clear Filters</button>
+            <button type="button" class="btn btn-primary ml-auto" (click)="create()">Create Event</button>
+        </div>
+    </div>
+</div>
+<!-- ./Filter -->
+<!-- Diary Events Grid -->
+<div class="row mt-3" *ngIf="!displayForm">
+    <div class="col-12 bold-border py-3">
+        <h3 class="lead">Events, Remiders in Diary:</h3>
+        <div class="row mt-3">
+            <ng-container *ngIf="results.length == 0"><div class="col-12 text-center font-weight-light">No events, reminders found</div></ng-container>
+
+            <ng-container *ngFor="let event of results">
+                <div class="col-6 col-sm-3 col-md-4 mt-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{event.eventDate | date: 'dd/MM/yyyy'}}</h5>
+                            <p class="card-text">{{event.comment}}</p>
+                            <a class="card-link" (click)="edit(event)">Edit</a>
+                            <a class="card-link" (click)="delete(event)">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<!-- ./Diary Events Grid -->

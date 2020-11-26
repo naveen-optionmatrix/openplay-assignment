@@ -1,0 +1,45 @@
+version: '2' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+  database: # name of the third service
+    image: mariadb:latest #mysql:5.7 mariadb:10.1.38
+    environment: 
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: openplaydb
+      #MYSQL_PASSWORD: pactPass
+    ports:
+      - "3306:3306" #specify ports forewarding
+    expose:
+      - 3306
+    volumes:
+      - ./database/db:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d/
+    restart: unless-stopped
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 5s
+            retries: 10
+  frontend: #name of the first service
+    build: frontend # specify the directory of the Dockerfile
+    ports:
+      - "4200:4200" # specify port forewarding
+    container_name: inno-front-container
+    restart: unless-stopped
+  backend: #name of the second service
+    build: backend # specify the directory of the Dockerfile
+    ports:
+      - "8080:8080" #specify ports forewarding
+    container_name: inno-back-container
+    restart: unless-stopped
+    environment:
+      DB_DATABASE: pacteradb
+      DB_HOST: database
+      #DB_USER: db_user
+      DB_PASSWORD: mysql
+    links:
+      - database:database
+    depends_on:
+      database:
+        condition: service_healthy # link this service to the database service
+    #command: ["./wait-for-mysql.sh", "db:3306", "--", "python", "app.py"]

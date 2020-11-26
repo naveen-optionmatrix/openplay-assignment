@@ -1,0 +1,36 @@
+
+<div class="row mt-5">
+    <div class="col-6 pt-4">
+            <h1 class="display-3 mt-4">Want to see your Diary!</h1>
+            <p class="lead">Login now or <a routerLink="/signup">Click Here</a> to Sign Up.</p>
+    </div>
+    <div class="col-6 bold-border mt-4">
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+        </div>
+
+        <form class="py-3" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group" [ngClass]="_cs.displayFieldCss(loginForm, 'email')">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"
+                    formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email">Please enter valid Email</div>
+                </div>
+            </div>
+            <div class="form-group" [ngClass]="_cs.displayFieldCss(loginForm, 'password')">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                    formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+

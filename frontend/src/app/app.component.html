@@ -1,0 +1,14 @@
+<!-- header -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="#"><img src="assets/images/logo-lighter.png" style="max-height: 40px;"></a>
+  <a class="link ml-auto" *ngIf="_as.isAuthenticated()" (click)="logout()">Logout</a>
+</nav>
+<!-- ./header -->
+
+<!-- content -->
+<main role="main">
+  <div class="container pt-3">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+<!-- ./content -->
